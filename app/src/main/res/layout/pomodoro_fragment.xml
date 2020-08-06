@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="pomodoroViewModel"
+            type="com.example.pomodoro_clock.pomodoro.PomodoroViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/pomodoro_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".pomodoro.PomodoroFragment">
+
+        <!--Timer Status-->
+        <TextView
+            android:id="@+id/timer_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="@{pomodoroViewModel.timerStatus}"
+            app:layout_constraintBottom_toTopOf="@id/session_status"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+        <!--Session Status-->
+        <TextView
+            android:id="@+id/session_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="@{pomodoroViewModel.currentSessionString}"
+            app:layout_constraintBottom_toTopOf="@id/timer_text"
+            app:layout_constraintTop_toBottomOf="@id/timer_status"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+        <!--Timer Display-->
+        <TextView
+            android:id="@+id/timer_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{pomodoroViewModel.currentTimeString}"
+            android:textSize="50sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.219" />
+<!--        Timer Controls-->
+        <Button
+            android:id="@+id/start_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="16dp"
+            android:text="Start"
+            android:onClick="@{() -> pomodoroViewModel.startTimer()}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/stop_button"
+            app:layout_constraintTop_toBottomOf="@id/timer_text" />
+
+        <Button
+            android:id="@+id/stop_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="32dp"
+            android:text="Stop"
+            android:onClick="@{() -> pomodoroViewModel.pauseTimer()}"
+            app:layout_constraintLeft_toRightOf="@id/start_button"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/timer_text" />
+
+        <!--Sessions Controls-->
+        <TextView
+            android:id="@+id/set_session_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Sessions"
+            android:textSize="25sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/start_button" />
+        <LinearLayout
+            android:id="@+id/sessions_controls"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toBottomOf="@id/set_session_text"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent">
+
+            <Button
+                android:padding="0dp"
+                android:minWidth="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:textSize="30sp"
+                android:onClick="@{() -> pomodoroViewModel.decrementSessions()}"/>
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginRight="10dp"
+               android:layout_marginLeft="10dp"
+               android:text="@{pomodoroViewModel.sessions.toString()}"
+               android:textSize="20sp"/>
+
+            <Button
+                android:padding="0dp"
+                android:minWidth="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+"
+                android:textSize="30sp"
+                android:onClick="@{() -> pomodoroViewModel.incrementSessions()}"/>
+
+        </LinearLayout>
+
+        <!--Work Time Controls-->
+        <TextView
+            android:id="@+id/work_timer_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Work Time"
+            android:textSize="25sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sessions_controls" />
+
+        <LinearLayout
+            android:id="@+id/work_time_controls"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/work_timer_text"
+            >
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="50dp"
+                android:padding="0dp"
+                android:text="-"
+                android:textSize="30sp"
+                android:onClick="@{() -> pomodoroViewModel.decreaseTimeByOneMinute()}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@{pomodoroViewModel.timeSetString}"
+                android:textSize="20sp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="50dp"
+                android:padding="0dp"
+                android:text="+"
+                android:textSize="30sp"
+                android:onClick="@{() -> pomodoroViewModel.increaseTimeByOneMinute()}"/>
+        </LinearLayout>
+        
+        <!--Break Time Controls-->
+        <TextView
+            android:id="@+id/break_timer_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Break Time"
+            android:textSize="25sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/work_time_controls" />
+
+        <LinearLayout
+            android:id="@+id/break_time_controls"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/break_timer_text"
+            >
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="50dp"
+                android:padding="0dp"
+                android:text="-"
+                android:textSize="30sp"
+                android:onClick="@{() -> pomodoroViewModel.decreaseBreakTimeByOneMinute()}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="@{pomodoroViewModel.breakTimeString}"
+                android:textSize="20sp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="50dp"
+                android:padding="0dp"
+                android:text="+"
+                android:textSize="30sp"
+                android:onClick="@{() -> pomodoroViewModel.increaseBreakTimeByOneMinute()}"/>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
